@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Domande | Woki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .questions-page {
+      padding: 24px 24px 72px;
+    }
+
+    .questions-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .questions-hero {
+      padding-top: 0;
+    }
+
+    .questions-breadcrumb {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .questions-hero-card {
+      display: block;
+      padding: 38px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(238, 243, 251, 0.92));
+      box-shadow: var(--shadow);
+    }
+
+    .question-flow-panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .questions-lead {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .question-progress {
+      display: flex;
+      gap: 10px;
+      margin: 8px 0 24px;
+    }
+
+    .question-progress-step {
+      flex: 1;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 36, 0.12);
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    .question-progress-step.is-active {
+      background: var(--accent);
+      transform: scaleY(1.08);
+    }
+
+    .question-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 520px;
+      padding: 28px;
+      border: 1px solid rgba(31, 94, 255, 0.14);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .question-counter {
+      margin-bottom: 12px;
+      color: var(--accent-dark);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .question-title {
+      min-height: 5.9rem;
+      margin-bottom: 12px;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      line-height: 1.08;
+    }
+
+    .question-description {
+      min-height: 1.8rem;
+      margin-bottom: 22px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .question-options {
+      display: grid;
+      gap: 14px;
+      margin-top: auto;
+    }
+
+    .question-feedback {
+      min-height: 26px;
+      margin-top: 16px;
+      color: var(--accent-dark);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .question-option {
+      min-height: 72px;
+      width: 100%;
+      padding: 18px 20px;
+      border: 1px solid rgba(15, 23, 36, 0.1);
+      border-radius: 22px;
+      background: rgba(238, 243, 251, 0.8);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font: inherit;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+
+    .question-option:hover {
+      transform: translateY(-2px);
+      border-color: rgba(31, 94, 255, 0.28);
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    .question-option.is-selected {
+      border-color: rgba(31, 94, 255, 0.58);
+      background: rgba(31, 94, 255, 0.1);
+      box-shadow: 0 18px 32px rgba(31, 94, 255, 0.12);
+    }
+
+    .question-option-label {
+      display: block;
+      font-size: 1.02rem;
+      font-weight: 700;
+    }
+
+    .question-option-text {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .question-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .question-next {
+      margin-top: 0;
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .question-next:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+      background: #90a4d4;
+    }
+
+    @media (max-width: 860px) {
+      .questions-page {
+        padding: 16px 16px 56px;
+      }
+
+      .questions-hero-card {
+        padding: 24px;
+      }
+
+      .question-card {
+        padding: 22px;
+      }
+
+      .question-card {
+        min-height: 480px;
+      }
+
+      .question-title {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body class="questions-page-body">
+  <main class="questions-page">
+    <section class="questions-hero">
+      <div class="questions-shell">
+        <div class="questions-hero-card" data-question-flow>
+          <div class="question-flow-panel">
+            <h1 data-questionnaire-heading>QUESTIONARIO</h1>
+            <p class="questions-lead" data-questionnaire-lead>
+              SCEGLI UNA RISPOSTA PER OGNI DOMANDA E USA IL PULSANTE AVANTI PER CONTINUARE.
+            </p>
+
+            <div class="question-progress" data-question-progress aria-hidden="true"></div>
+
+            <div class="question-card">
+              <p class="question-counter" data-question-counter>Domanda 1 di 4</p>
+              <h2 class="question-title" data-question-title>Ti piacerebbe guadagnare qualcosa facendo piccoli lavori nel tuo tempo libero?</h2>
+              <p class="question-description" data-question-description></p>
+
+              <div class="question-options" data-question-options aria-label="Opzioni risposta"></div>
+              <p class="question-feedback" data-question-feedback></p>
+
+              <div class="question-actions">
+                <button class="cta question-next" type="button" data-question-next disabled>Avanti</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const questionFlow = document.querySelector("[data-question-flow]");
+
+      if (!questionFlow) {
+        return;
+      }
+
+      const questionnaireHeading = questionFlow.querySelector("[data-questionnaire-heading]");
+      const questionnaireLead = questionFlow.querySelector("[data-questionnaire-lead]");
+      const selectedSurveyType = new URLSearchParams(window.location.search).get("tipo") === "datore"
+        ? "employer"
+        : "worker";
+
+      const questionSets = {
+        worker: {
+          pageTitle: "QUESTIONARIO",
+          lead: "SCEGLI UNA RISPOSTA PER OGNI DOMANDA E USA IL PULSANTE AVANTI PER CONTINUARE.",
+          questions: [
+            {
+              id: "motivation",
+              counter: "DOMANDA 1 DI 7",
+              title: "ETA'",
+              description: "",
+              options: [
+                { label: "<16", text: "" },
+                { label: "16-18", text: "" },
+                { label: "19-22", text: "" },
+                { label: ">22", text: "" },
+              ]
+            },
+            {
+              id: "availability",
+              counter: "DOMANDA 2 DI 7",
+              title: "TI PIACEREBBE GUADAGNARE CON PICCOLI LAVORI OCCASIONALI?",
+              description: "",
+              options: [
+                { label: "SI'", text: "" },
+                { label: "NO", text: "" },
+              ]
+            },
+            {
+              id: "next_step",
+              counter: "DOMANDA 3 DI 7",
+              title: "HAI DIFFICOLTA' A TROVARE QUESTO TIPO DI LAVORI?",
+              description: "",
+              options: [
+                { label: "SI'", text: "" },
+                { label: "NO", text: "" },
+              ]
+            },
+            {
+              id: "monthly_frequency",
+              counter: "DOMANDA 4 DI 7",
+              title: "QUANTE VOLTE LAVORERESTI AL MESE?",
+              description: "",
+              options: [
+                { label: "1", text: "" },
+                { label: "2-3", text: "" },
+                { label: "4 O PIU'", text: "" },
+              ]
+            },
+            {
+              id: "app_usage",
+              counter: "DOMANDA 5 DI 7",
+              title: "USERESTI UN'APP PER TROVARE LAVORI VICINO A TE?",
+              description: "",
+              options: [
+                { label: "SI'", text: "" },
+                { label: "NO", text: "" },
+              ]
+            },
+            {
+              id: "safety_importance",
+              counter: "DOMANDA 6 DI 7",
+              title: "QUANTO E' IMPORTANTE PER TE LA SICUREZZA (PROFILI VERIFICATI, RECENSIONI)?",
+              description: "",
+              options: [
+                { label: "MOLTO", text: "" },
+                { label: "ABBASTANZA", text: "" },
+                { label: "POCO", text: "" },
+              ]
+            },
+            {
+              id: "commission_range",
+              counter: "DOMANDA 7 DI 7",
+              title: "QUALE COMMISSIONE CONSIDERERESTI ACCETTABILE SULL'APP?",
+              description: "",
+              options: [
+                { label: "1-2%", text: "" },
+                { label: "3-4%", text: "" },
+                { label: "5-6%", text: "" },
+                { label: "7-10%", text: "" },
+              ]
+            }
+          ]
+        },
+        employer: {
+          pageTitle: "QUESTIONARIO DATORE",
+          lead: "SCEGLI UNA RISPOSTA PER OGNI DOMANDA E USA IL PULSANTE AVANTI PER CONTINUARE.",
+          questions: [
+            {
+              id: "motivation",
+              counter: "DOMANDA 1 DI 7",
+              title: "ETA'",
+              description: "",
+              options: [
+                { label: "<18", text: "" },
+                { label: "18-30", text: "" },
+                { label: "31-50", text: "" },
+                { label: ">50", text: "" },
+              ]
+            },
+            {
+              id: "availability",
+              counter: "DOMANDA 2 DI 7",
+              title: "TI CAPITA DI AVER BISOGNO DI AIUTO PER PICCOLI LAVORI?",
+              description: "",
+              options: [
+                { label: "SI'", text: "" },
+                { label: "NO", text: "" },
+              ]
+            },
+            {
+              id: "next_step",
+              counter: "DOMANDA 3 DI 7",
+              title: "HAI DIFFICOLTA' A TROVARE QUALCUNO DISPONIBILE?",
+              description: "",
+              options: [
+                { label: "SI'", text: "" },
+                { label: "NO", text: "" },
+              ]
+            },
+            {
+              id: "urgency",
+              counter: "DOMANDA 4 DI 7",
+              title: "QUANTO VELOCEMENTE TI SERVE DI SOLITO QUALCUNO?",
+              description: "",
+              options: [
+                { label: "SUBITO (STESSO GIORNO)", text: "" },
+                { label: "ENTRO 1-2 GIORNI", text: "" },
+                { label: "NON E' URGENTE", text: "" },
+              ]
+            },
+            {
+              id: "app_usage",
+              counter: "DOMANDA 5 DI 7",
+              title: "USERESTI UN'APP PER TROVARE QUALCUNO VICINO A TE IN MODO RAPIDO?",
+              description: "",
+              options: [
+                { label: "SI'", text: "" },
+                { label: "NO", text: "" },
+              ]
+            },
+            {
+              id: "safety_importance",
+              counter: "DOMANDA 6 DI 7",
+              title: "QUANTO E' IMPORTANTE LA SICUREZZA (PROFILI VERIFICATI E RECENSIONI)?",
+              description: "",
+              options: [
+                { label: "MOLTO", text: "" },
+                { label: "ABBASTANZA", text: "" },
+                { label: "POCO", text: "" },
+              ]
+            },
+            {
+              id: "average_payment",
+              counter: "DOMANDA 7 DI 7",
+              title: "QUANTO PAGHI MEDIAMENTE PER PICCOLI LAVORI?",
+              description: "",
+              options: [
+                { label: "5-10EUR", text: "" },
+                { label: "10-20EUR", text: "" },
+                { label: "20-30EUR", text: "" },
+                { label: "PIU' DI 30EUR", text: "" },
+              ]
+            }
+          ]
+        },
+      };
+
+      const surveyConfig = questionSets[selectedSurveyType];
+      const questions = surveyConfig.questions;
+      const progressContainer = questionFlow.querySelector("[data-question-progress]");
+      progressContainer.innerHTML = questions
+        .map((_, index) => `<span class="question-progress-step${index === 0 ? " is-active" : ""}"></span>`)
+        .join("");
+
+      const progressSteps = questionFlow.querySelectorAll(".question-progress-step");
+      const counter = questionFlow.querySelector("[data-question-counter]");
+      const title = questionFlow.querySelector("[data-question-title]");
+      const description = questionFlow.querySelector("[data-question-description]");
+      const optionsContainer = questionFlow.querySelector("[data-question-options]");
+      const feedback = questionFlow.querySelector("[data-question-feedback]");
+      const nextButton = questionFlow.querySelector("[data-question-next]");
+      const responsesEndpoint = "/api/responses";
+
+      questionnaireHeading.textContent = surveyConfig.pageTitle;
+      questionnaireLead.textContent = surveyConfig.lead;
+      document.title = `${surveyConfig.pageTitle} | Woki`;
+
+      let currentQuestionIndex = 0;
+      let answers = {};
+      let hasStoredCurrentRun = false;
+
+      const escapeHtml = (value) =>
+        String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+
+      const updateProgress = () => {
+        progressSteps.forEach((step, index) => {
+          step.classList.toggle("is-active", index <= currentQuestionIndex);
+        });
+      };
+
+      const bindOptions = (question) => {
+        optionsContainer.querySelectorAll("[data-question-option]").forEach((button) => {
+          button.addEventListener("click", () => {
+            answers[question.id] = button.getAttribute("data-question-option") || "";
+            renderQuestion();
+          });
+        });
+      };
+
+      const storeAnswers = async () => {
+        if (hasStoredCurrentRun) {
+          return true;
+        }
+
+        try {
+          const response = await fetch(responsesEndpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              surveyType: selectedSurveyType,
+              submittedAt: new Date().toISOString(),
+              answers,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Save failed");
+          }
+
+          hasStoredCurrentRun = true;
+          return true;
+        } catch (error) {
+          return false;
+        }
+      };
+
+      const renderQuestion = () => {
+        const question = questions[currentQuestionIndex];
+        const selectedAnswer = answers[question.id];
+
+        counter.textContent = question.counter;
+        title.textContent = question.title;
+        description.textContent = question.description;
+
+        optionsContainer.innerHTML = question.options
+          .map((option) => {
+            const isSelected = selectedAnswer === option.label;
+
+            return `
+              <button
+                class="question-option${isSelected ? " is-selected" : ""}"
+                type="button"
+                data-question-option="${escapeHtml(option.label)}"
+              >
+                <span class="question-option-label">${escapeHtml(option.label)}</span>
+                ${option.text ? `<span class="question-option-text">${escapeHtml(option.text)}</span>` : ""}
+              </button>
+            `;
+          })
+          .join("");
+
+        nextButton.disabled = !selectedAnswer;
+        nextButton.hidden = false;
+        nextButton.textContent = currentQuestionIndex === questions.length - 1 ? "FINE" : "AVANTI";
+        feedback.textContent = "";
+        updateProgress();
+        bindOptions(question);
+      };
+
+      const renderCompleteState = (savedSuccessfully) => {
+        counter.textContent = "QUESTIONARIO COMPLETATO";
+        title.textContent = "GRAZIE MILLE PER AVER RISPOSTO";
+        description.textContent = savedSuccessfully
+          ? ""
+          : "NON SONO RIUSCITO A SALVARE LE RISPOSTE RIPROVA TRA POCO";
+        feedback.textContent = savedSuccessfully ? "" : "ERRORE NEL SALVATAGGIO";
+        optionsContainer.innerHTML = "";
+
+        nextButton.hidden = true;
+        progressSteps.forEach((step) => {
+          step.classList.add("is-active");
+        });
+      };
+
+      nextButton.addEventListener("click", async () => {
+        const currentQuestion = questions[currentQuestionIndex];
+
+        if (!answers[currentQuestion.id]) {
+          return;
+        }
+
+        if (currentQuestionIndex === questions.length - 1) {
+          nextButton.disabled = true;
+          const savedSuccessfully = await storeAnswers();
+          renderCompleteState(savedSuccessfully);
+          return;
+        }
+
+        currentQuestionIndex += 1;
+        renderQuestion();
+      });
+
+      renderQuestion();
+    })();
+  </script>
+</body>
+</html>

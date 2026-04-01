@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistiche Domande | Woki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root {
+      --stats-yes: #1f5eff;
+      --stats-no: #ff8d6d;
+      --stats-alt: #26b37a;
+      --stats-gold: #f1b93c;
+      --stats-violet: #8e6df7;
+      --stats-soft: #eef3fb;
+    }
+
+    .stats-page {
+      padding: 24px 24px 72px;
+    }
+
+    .stats-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .stats-hero,
+    .stats-panel {
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .stats-hero {
+      padding: 34px;
+      background:
+        radial-gradient(circle at top right, rgba(31, 94, 255, 0.12), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(238, 243, 251, 0.94));
+    }
+
+    .stats-intro {
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .stats-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .stats-reset {
+      margin-top: 0;
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .stats-reset-status {
+      margin-top: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .stats-reset-status.is-error {
+      color: #c14b29;
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 26px;
+    }
+
+    .stats-strip-card {
+      padding: 20px 22px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(31, 94, 255, 0.08);
+    }
+
+    .stats-strip-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .stats-panel {
+      margin-top: 24px;
+      padding: 30px;
+    }
+
+    .stats-columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .stats-column {
+      display: grid;
+      gap: 20px;
+      align-content: start;
+      padding: 24px;
+      border-radius: 28px;
+      border: 1px solid rgba(31, 94, 255, 0.12);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(238, 243, 251, 0.88));
+    }
+
+    .stats-column-head {
+      display: grid;
+      gap: 10px;
+    }
+
+    .stats-column-tag {
+      display: inline-flex;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(31, 94, 255, 0.1);
+      color: var(--stats-yes);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .stats-column-title {
+      margin: 0;
+      font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+      line-height: 1;
+    }
+
+    .stats-column-meta {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .stats-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .stats-column .stats-grid {
+      gap: 16px;
+    }
+
+    .stats-question-card {
+      display: grid;
+      grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+      gap: 26px;
+      padding: 24px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(238, 243, 251, 0.84));
+      border: 1px solid rgba(31, 94, 255, 0.12);
+    }
+
+    .stats-question-copy h2 {
+      margin-bottom: 10px;
+      font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+      line-height: 1.08;
+    }
+
+    .stats-question-tag {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(31, 94, 255, 0.1);
+      color: var(--stats-yes);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .stats-question-copy p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .stats-chart-area {
+      display: grid;
+      place-items: center;
+      padding: 8px 0;
+    }
+
+    .stats-donut {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: var(--stats-chart-gradient, conic-gradient(#dfe7f8 0deg 360deg));
+      box-shadow:
+        inset 0 0 0 12px rgba(255, 255, 255, 0.65),
+        0 18px 40px rgba(10, 24, 46, 0.14);
+    }
+
+    .stats-donut.is-empty {
+      background: conic-gradient(#dfe7f8 0deg 360deg);
+    }
+
+    .stats-donut::after {
+      content: "";
+      position: absolute;
+      inset: 34px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .stats-donut-center {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .stats-donut-center strong {
+      display: block;
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .stats-donut-center span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .stats-breakdown {
+      display: grid;
+      gap: 14px;
+      align-content: center;
+    }
+
+    .stats-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .stats-metric {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .stats-metric-value {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stats-metric-label {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .stats-breakdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .stats-breakdown-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+    }
+
+    .stats-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .stats-breakdown-value {
+      text-align: right;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .stats-question-meta {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .stats-empty-note {
+      margin-top: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .stats-column .stats-question-card {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding: 20px;
+    }
+
+    .stats-column .stats-chart-area {
+      order: -1;
+    }
+
+    .stats-column .stats-donut {
+      width: 200px;
+      height: 200px;
+    }
+
+    @media (max-width: 900px) {
+      .stats-page {
+        padding: 16px 16px 56px;
+      }
+
+      .stats-hero,
+      .stats-panel {
+        padding: 24px;
+      }
+
+      .stats-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-question-card {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-chart-area {
+        order: -1;
+      }
+
+      .stats-metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="stats-page">
+    <section class="stats-shell">
+      <div class="stats-hero">
+        <p class="section-label">Statistiche</p>
+
+        <div class="stats-actions">
+          <a class="cta" href="domande.html?tipo=lavoratore">Questionario lavoratore</a>
+          <a class="cta secondary" href="domande.html?tipo=datore">Questionario datore</a>
+          <button class="cta secondary stats-reset" type="button" data-reset-responses>Azzera risposte</button>
+        </div>
+
+        <p class="stats-reset-status" data-reset-status></p>
+        <div class="stats-strip" data-stats-summary></div>
+      </div>
+
+      <div class="stats-panel">
+        <div class="stats-columns" data-stats-columns></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const responsesEndpoint = "/api/responses";
+      const resetButton = document.querySelector("[data-reset-responses]");
+      const resetStatus = document.querySelector("[data-reset-status]");
+      const statsSummary = document.querySelector("[data-stats-summary]");
+      const statsColumns = document.querySelector("[data-stats-columns]");
+
+      const questionSets = {
+        worker: {
+          label: "LAVORATORE",
+          summary: "Risposte raccolte dal questionario lavoratore.",
+          questions: [
+            {
+              id: "motivation",
+              tag: "Domanda 1",
+              title: "ETA'",
+              helper: "Distribuzione delle risposte alla prima domanda.",
+              options: ["<16", "16-18", "19-22", ">22"],
+            },
+            {
+              id: "availability",
+              tag: "Domanda 2",
+              title: "TI PIACEREBBE GUADAGNARE CON PICCOLI LAVORI OCCASIONALI?",
+              helper: "Distribuzione delle risposte alla seconda domanda.",
+              options: ["SI'", "NO"],
+            },
+            {
+              id: "next_step",
+              tag: "Domanda 3",
+              title: "HAI DIFFICOLTA' A TROVARE QUESTO TIPO DI LAVORI?",
+              helper: "Distribuzione delle risposte alla terza domanda.",
+              options: ["SI'", "NO"],
+            },
+            {
+              id: "monthly_frequency",
+              tag: "Domanda 4",
+              title: "QUANTE VOLTE LAVORERESTI AL MESE?",
+              helper: "Distribuzione delle risposte alla quarta domanda.",
+              options: ["1", "2-3", "4 O PIU'"],
+            },
+            {
+              id: "app_usage",
+              tag: "Domanda 5",
+              title: "USERESTI UN'APP PER TROVARE LAVORI VICINO A TE?",
+              helper: "Distribuzione delle risposte alla quinta domanda.",
+              options: ["SI'", "NO"],
+            },
+            {
+              id: "safety_importance",
+              tag: "Domanda 6",
+              title: "QUANTO E' IMPORTANTE PER TE LA SICUREZZA (PROFILI VERIFICATI, RECENSIONI)?",
+              helper: "Distribuzione delle risposte alla sesta domanda.",
+              options: ["MOLTO", "ABBASTANZA", "POCO"],
+            },
+            {
+              id: "commission_range",
+              tag: "Domanda 7",
+              title: "QUALE COMMISSIONE CONSIDERERESTI ACCETTABILE SULL'APP?",
+              helper: "Distribuzione delle risposte alla settima domanda.",
+              options: ["1-2%", "3-4%", "5-6%", "7-10%"],
+            },
+          ],
+        },
+        employer: {
+          label: "DATORE",
+          summary: "Risposte raccolte dal questionario datore.",
+          questions: [
+            {
+              id: "motivation",
+              tag: "Domanda 1",
+              title: "ETA'",
+              helper: "Distribuzione delle risposte alla prima domanda.",
+              options: ["<18", "18-30", "31-50", ">50"],
+            },
+            {
+              id: "availability",
+              tag: "Domanda 2",
+              title: "TI CAPITA DI AVER BISOGNO DI AIUTO PER PICCOLI LAVORI?",
+              helper: "Distribuzione delle risposte alla seconda domanda.",
+              options: ["SI'", "NO"],
+            },
+            {
+              id: "next_step",
+              tag: "Domanda 3",
+              title: "HAI DIFFICOLTA' A TROVARE QUALCUNO DISPONIBILE?",
+              helper: "Distribuzione delle risposte alla terza domanda.",
+              options: ["SI'", "NO"],
+            },
+            {
+              id: "urgency",
+              tag: "Domanda 4",
+              title: "QUANTO VELOCEMENTE TI SERVE DI SOLITO QUALCUNO?",
+              helper: "Distribuzione delle risposte alla quarta domanda.",
+              options: ["SUBITO (STESSO GIORNO)", "ENTRO 1-2 GIORNI", "NON E' URGENTE"],
+            },
+            {
+              id: "app_usage",
+              tag: "Domanda 5",
+              title: "USERESTI UN'APP PER TROVARE QUALCUNO VICINO A TE IN MODO RAPIDO?",
+              helper: "Distribuzione delle risposte alla quinta domanda.",
+              options: ["SI'", "NO"],
+            },
+            {
+              id: "safety_importance",
+              tag: "Domanda 6",
+              title: "QUANTO E' IMPORTANTE LA SICUREZZA (PROFILI VERIFICATI E RECENSIONI)?",
+              helper: "Distribuzione delle risposte alla sesta domanda.",
+              options: ["MOLTO", "ABBASTANZA", "POCO"],
+            },
+            {
+              id: "average_payment",
+              tag: "Domanda 7",
+              title: "QUANTO PAGHI MEDIAMENTE PER PICCOLI LAVORI?",
+              helper: "Distribuzione delle risposte alla settima domanda.",
+              options: ["5-10EUR", "10-20EUR", "20-30EUR", "PIU' DI 30EUR"],
+            },
+          ],
+        },
+      };
+
+      const surveyOrder = ["worker", "employer"];
+
+      const chartColors = [
+        "var(--stats-yes)",
+        "var(--stats-no)",
+        "var(--stats-alt)",
+        "var(--stats-gold)",
+        "var(--stats-violet)",
+      ];
+
+      const escapeHtml = (value) =>
+        String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+
+      const readResponses = async () => {
+        try {
+          const response = await fetch(responsesEndpoint, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) {
+            throw new Error("Load failed");
+          }
+
+          const parsed = await response.json();
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+          return [];
+        }
+      };
+
+      const filterSurveyResponses = (responses, surveyType) =>
+        responses.filter((entry) => (entry?.surveyType || "worker") === surveyType);
+
+      const setResetStatus = (message, isError = false) => {
+        resetStatus.textContent = message;
+        resetStatus.classList.toggle("is-error", isError);
+      };
+
+      const countAnswer = (responses, questionId, expectedAnswer) =>
+        responses.filter((entry) => (entry?.answers?.[questionId] || "").toLowerCase() === expectedAnswer.toLowerCase()).length;
+
+      const buildAnswerStats = (responses, question) =>
+        question.options.map((option, index) => ({
+          label: option,
+          count: countAnswer(responses, question.id, option),
+          color: chartColors[index % chartColors.length],
+        }));
+
+      const buildChartGradient = (answerStats, total) => {
+        if (!total) {
+          return "conic-gradient(#dfe7f8 0deg 360deg)";
+        }
+
+        let currentDegree = 0;
+
+        return `conic-gradient(${answerStats
+          .map((item, index) => {
+            const slice = total ? (item.count / total) * 360 : 0;
+            const start = currentDegree;
+            const end = index === answerStats.length - 1 ? 360 : currentDegree + slice;
+            currentDegree = end;
+            return `${item.color} ${start}deg ${end}deg`;
+          })
+          .join(", ")})`;
+      };
+
+      const getRecordedAnswerCount = (responses, questions) =>
+        questions.reduce(
+          (sum, question) => sum + buildAnswerStats(responses, question).reduce((questionSum, item) => questionSum + item.count, 0),
+          0
+        );
+
+      const renderSummary = (responses) => {
+        const workerResponses = filterSurveyResponses(responses, "worker");
+        const employerResponses = filterSurveyResponses(responses, "employer");
+        const totalResponses = responses.length;
+        const totalRecordedAnswers =
+          getRecordedAnswerCount(workerResponses, questionSets.worker.questions) +
+          getRecordedAnswerCount(employerResponses, questionSets.employer.questions);
+
+        statsSummary.innerHTML = `
+          <div class="stats-strip-card">
+            <strong>${totalResponses}</strong>
+            <span>Questionari completati</span>
+          </div>
+          <div class="stats-strip-card">
+            <strong>${workerResponses.length}</strong>
+            <span>Questionari lavoratore</span>
+          </div>
+          <div class="stats-strip-card">
+            <strong>${employerResponses.length}</strong>
+            <span>Questionari datore</span>
+          </div>
+          <div class="stats-strip-card">
+            <strong>${totalRecordedAnswers}</strong>
+            <span>Risposte conteggiate</span>
+          </div>
+        `;
+      };
+
+      const renderSurveyColumn = (surveyType, responses) => {
+        const survey = questionSets[surveyType];
+
+        return `
+          <section class="stats-column">
+            <div class="stats-column-head">
+              <span class="stats-column-tag">${survey.label}</span>
+              <h2 class="stats-column-title">${survey.label}</h2>
+              <p class="stats-column-meta">
+                ${survey.summary} Totale questionari: ${responses.length}. Domande attive: ${survey.questions.length}.
+              </p>
+            </div>
+
+            <div class="stats-grid">
+              ${survey.questions
+                .map((question) => {
+                  const answerStats = buildAnswerStats(responses, question);
+                  const total = answerStats.reduce((sum, item) => sum + item.count, 0);
+                  const topCount = total ? Math.max(...answerStats.map((item) => item.count)) : 0;
+                  const topAnswers = answerStats.filter((item) => item.count === topCount && topCount > 0);
+                  const dominantAnswer =
+                    total === 0 ? "Nessuna risposta" : topAnswers.length > 1 ? "Parita'" : topAnswers[0].label;
+                  const dominantPercent = total && topCount ? Math.round((topCount / total) * 100) : 0;
+                  const chartGradient = buildChartGradient(answerStats, total);
+
+                  return `
+                    <article class="stats-question-card">
+                      <div class="stats-chart-area">
+                        <div class="stats-donut${total === 0 ? " is-empty" : ""}" style="--stats-chart-gradient: ${chartGradient};">
+                          <div class="stats-donut-center">
+                            <div>
+                              <strong>${total}</strong>
+                              <span>risposte</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="stats-question-copy">
+                        <span class="stats-question-tag">${escapeHtml(question.tag)}</span>
+                        <h2>${escapeHtml(question.title)}</h2>
+                        <p>${escapeHtml(question.helper)}</p>
+
+                        <div class="stats-metrics">
+                          <div class="stats-metric">
+                            <span class="stats-metric-value">${total}</span>
+                            <span class="stats-metric-label">Risposte raccolte</span>
+                          </div>
+                          <div class="stats-metric">
+                            <span class="stats-metric-value">${dominantAnswer}</span>
+                            <span class="stats-metric-label">Risposta prevalente</span>
+                          </div>
+                          <div class="stats-metric">
+                            <span class="stats-metric-value">${dominantPercent}%</span>
+                            <span class="stats-metric-label">Quota prevalente</span>
+                          </div>
+                          <div class="stats-metric">
+                            <span class="stats-metric-value">${question.options.length}</span>
+                            <span class="stats-metric-label">Opzioni disponibili</span>
+                          </div>
+                        </div>
+
+                        <div class="stats-breakdown">
+                          ${answerStats
+                            .map((item) => {
+                              const percent = total ? Math.round((item.count / total) * 100) : 0;
+
+                              return `
+                                <div class="stats-breakdown-item">
+                                  <span class="stats-breakdown-label">
+                                    <span class="stats-dot" style="background: ${item.color};"></span>
+                                    ${escapeHtml(item.label)}
+                                  </span>
+                                  <span class="stats-breakdown-value">${item.count} risposte | ${percent}%</span>
+                                </div>
+                              `;
+                            })
+                            .join("")}
+                        </div>
+
+                        <p class="stats-question-meta">
+                          Totale conteggiato per questa domanda: ${total}.
+                        </p>
+
+                        ${total === 0 ? `<p class="stats-empty-note">Nessuna risposta ancora per questa domanda.</p>` : ""}
+                      </div>
+                    </article>
+                  `;
+                })
+                .join("")}
+            </div>
+          </section>
+        `;
+      };
+
+      const renderCharts = async () => {
+        const responses = await readResponses();
+        renderSummary(responses);
+
+        statsColumns.innerHTML = surveyOrder
+          .map((surveyType) => renderSurveyColumn(surveyType, filterSurveyResponses(responses, surveyType)))
+          .join("");
+      };
+
+      resetButton.addEventListener("click", async () => {
+        const shouldReset = window.confirm("Vuoi davvero azzerare tutte le risposte raccolte?");
+
+        if (!shouldReset) {
+          return;
+        }
+
+        resetButton.disabled = true;
+        resetButton.textContent = "Azzeramento...";
+        setResetStatus("");
+
+        try {
+          const response = await fetch(responsesEndpoint, {
+            method: "DELETE",
+          });
+
+          if (!response.ok) {
+            throw new Error("Reset failed");
+          }
+
+          await renderCharts();
+          setResetStatus("Le risposte sono state azzerate.");
+        } catch (error) {
+          setResetStatus("Non sono riuscito ad azzerare le risposte. Riprova tra poco.", true);
+        } finally {
+          resetButton.disabled = false;
+          resetButton.textContent = "Azzera risposte";
+        }
+      });
+
+      renderCharts();
+    })();
+  </script>
+</body>
+</html>

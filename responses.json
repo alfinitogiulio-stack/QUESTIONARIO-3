@@ -1,0 +1,72 @@
+[
+  {
+    "submittedAt": "2026-04-01T12:58:23.728Z",
+    "answers": {
+      "motivation": "Si'",
+      "availability": "Raramente",
+      "next_step": "No",
+      "monthly_frequency": "3-5"
+    }
+  },
+  {
+    "submittedAt": "2026-04-01T13:01:47.845Z",
+    "answers": {
+      "motivation": "No",
+      "availability": "Raramente",
+      "next_step": "Si'",
+      "monthly_frequency": "3-5"
+    }
+  },
+  {
+    "surveyType": "worker",
+    "submittedAt": "2026-04-01T17:35:38.886Z",
+    "answers": {
+      "motivation": ">22",
+      "availability": "NO",
+      "next_step": "NO",
+      "monthly_frequency": "4 O PIU'",
+      "app_usage": "NO",
+      "safety_importance": "ABBASTANZA",
+      "commission_range": "7-10%"
+    }
+  },
+  {
+    "surveyType": "worker",
+    "submittedAt": "2026-04-01T17:36:57.289Z",
+    "answers": {
+      "motivation": ">22",
+      "availability": "NO",
+      "next_step": "NO",
+      "monthly_frequency": "2-3",
+      "app_usage": "NO",
+      "safety_importance": "ABBASTANZA",
+      "commission_range": "1-2%"
+    }
+  },
+  {
+    "surveyType": "worker",
+    "submittedAt": "2026-04-01T17:38:25.273Z",
+    "answers": {
+      "motivation": ">22",
+      "availability": "SI'",
+      "next_step": "SI'",
+      "monthly_frequency": "4 O PIU'",
+      "app_usage": "SI'",
+      "safety_importance": "MOLTO",
+      "commission_range": "3-4%"
+    }
+  },
+  {
+    "surveyType": "worker",
+    "submittedAt": "2026-04-01T18:00:58.616Z",
+    "answers": {
+      "motivation": "16-18",
+      "availability": "NO",
+      "next_step": "SI'",
+      "monthly_frequency": "4 O PIU'",
+      "app_usage": "SI'",
+      "safety_importance": "MOLTO",
+      "commission_range": "7-10%"
+    }
+  }
+]
