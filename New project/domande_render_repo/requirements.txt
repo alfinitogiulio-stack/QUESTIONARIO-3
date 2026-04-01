@@ -1,0 +1,1 @@
+# Nessuna dipendenza esterna: il progetto usa solo la libreria standard di Python.

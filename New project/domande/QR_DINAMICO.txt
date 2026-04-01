@@ -1,0 +1,18 @@
+QR dinamico con aggiornamento automatico
+
+Apri:
+
+- `qr_dinamico.html`
+
+Questa pagina:
+
+- legge `runtime/link_condivisi.txt`
+- prende il link condiviso piu' recente
+- rigenera il QR di `domande` e `statistiche`
+- si aggiorna automaticamente ogni 15 secondi
+
+Importante
+
+- il QR cambia se cambia il link del tunnel
+- la pagina deve restare aperta o essere ricaricata per mostrare l'ultimo QR
+- per un QR stampato e permanente serve comunque un link stabile vero, per esempio `onrender.com`

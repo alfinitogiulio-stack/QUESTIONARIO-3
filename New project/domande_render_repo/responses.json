@@ -1,0 +1,36 @@
+[
+  {
+    "submittedAt": "2026-03-25T07:08:11.988Z",
+    "answers": {
+      "motivation": "Si'",
+      "availability": "Si'",
+      "next_step": "Si'"
+    }
+  },
+  {
+    "submittedAt": "2026-03-25T07:14:52.919Z",
+    "answers": {
+      "motivation": "Si'",
+      "availability": "No",
+      "next_step": "No"
+    }
+  },
+  {
+    "submittedAt": "2026-03-25T18:26:16.449Z",
+    "answers": {
+      "motivation": "Si'",
+      "availability": "Raramente",
+      "next_step": "No",
+      "monthly_frequency": "3-5"
+    }
+  },
+  {
+    "submittedAt": "2026-03-25T18:29:06.529Z",
+    "answers": {
+      "motivation": "Si'",
+      "availability": "Raramente",
+      "next_step": "No",
+      "monthly_frequency": "3-5"
+    }
+  }
+]

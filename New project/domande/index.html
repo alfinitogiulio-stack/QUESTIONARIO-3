@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questionario Woki</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: linear-gradient(180deg, #f8fbff 0%, #eef3fb 100%);
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+
+    .empty-entry-shell {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .empty-entry-intro {
+      max-width: 920px;
+      text-align: center;
+    }
+
+    .empty-entry-kicker {
+      margin: 0 0 14px;
+      color: #1f5eff;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .empty-entry-text {
+      margin: 0 auto;
+      max-width: 860px;
+      color: #42516a;
+      font-size: 1.06rem;
+      line-height: 1.75;
+    }
+
+    .empty-entry-title {
+      margin: 0;
+      color: #0f1724;
+      font-size: clamp(3.4rem, 7vw, 6.4rem);
+      font-weight: 700;
+      line-height: 0.94;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .empty-entry-grid {
+      width: min(100%, 1180px);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 180px;
+      justify-items: center;
+      align-items: center;
+    }
+
+    .empty-entry-button {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 440px;
+      min-height: 400px;
+      border-radius: 42px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 32px;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: clamp(2.3rem, 3.8vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1;
+      text-decoration: none;
+      color: #ffffff;
+      background:
+        linear-gradient(180deg, rgba(15, 23, 36, 0.2), rgba(15, 23, 36, 0.55)),
+        center / cover no-repeat;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 18px 40px rgba(10, 24, 46, 0.1);
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    }
+
+    .empty-entry-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 23, 36, 0.12), rgba(15, 23, 36, 0.62));
+    }
+
+    .empty-entry-button > span {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      padding-top: 42px;
+      text-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .empty-entry-button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 48px rgba(10, 24, 46, 0.16);
+      border-color: rgba(255, 255, 255, 0.34);
+    }
+
+    .empty-entry-button.first {
+      background-image:
+        linear-gradient(180deg, rgba(15, 23, 36, 0.12), rgba(15, 23, 36, 0.58)),
+        url("assets/pulsante-nuovo-1.png");
+    }
+
+    .empty-entry-button.second {
+      background-image:
+        linear-gradient(180deg, rgba(15, 23, 36, 0.12), rgba(15, 23, 36, 0.58)),
+        url("assets/pulsante-nuovo-2.png");
+    }
+
+    @media (max-width: 780px) {
+      .empty-entry-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        transform: translateY(36px);
+      }
+
+      .empty-entry-button {
+        max-width: none;
+        min-height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="empty-entry-shell">
+    <div class="empty-entry-intro">
+      <p class="empty-entry-kicker">QUESTIONARIO WOKI</p>
+      <p class="empty-entry-text">
+        Ciao! Stiamo sviluppando Woki, una piattaforma che mette in contatto persone che hanno bisogno di aiuto per piccoli lavori
+        come babysitting, commissioni o aiuto compiti con giovani disponibili a lavorare.
+        Il questionario e' anonimo e richiede meno di 1 minuto.
+        Le tue risposte ci aiuteranno a capire meglio le esigenze reali delle persone.
+      </p>
+    </div>
+    <h1 class="empty-entry-title">CHE TIPO DI CLIENTE SEI?</h1>
+    <div class="empty-entry-grid">
+      <a class="empty-entry-button first" href="domande.html?tipo=lavoratore"><span>LAVORATORE</span></a>
+      <a class="empty-entry-button second" href="domande.html?tipo=datore"><span>DATORE</span></a>
+    </div>
+  </main>
+</body>
+</html>

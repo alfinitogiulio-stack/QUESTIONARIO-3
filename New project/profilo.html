@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profilo | Woki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="subpage-header">
+    <nav class="navbar">
+      <a class="brand" href="index.html#home">Woki</a>
+
+      <button class="menu-toggle" aria-expanded="false" aria-controls="nav-menu">
+        Menu
+      </button>
+
+      <div class="nav-links" id="nav-menu">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#about">Chi siamo</a>
+        <a href="index.html#gallery">Galleria</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false">
+            Categorie
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="babysitting.html">Babysitting</a>
+            <a href="petsitting.html">Petsitting</a>
+            <a href="traslochi.html">Traslochi</a>
+          </div>
+        </div>
+        <a href="chat.html">Chat</a>
+        <a class="nav-button" href="accesso.html" id="account-link">Accedi</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="profile-page">
+    <section class="profile-shell">
+      <div class="profile-banner"></div>
+
+      <section class="profile-hero-card">
+        <div class="profile-avatar-wrap">
+          <img class="profile-avatar" src="profili-split/profilo 8.jpg" alt="Foto profilo di Woki">
+        </div>
+
+        <div class="profile-hero-copy">
+          <p class="section-label">Profilo</p>
+          <h1 class="profile-name" data-profile-field="displayName">WOKI</h1>
+          <p class="profile-handle" data-profile-field="handle">@cilli.official</p>
+          <p class="profile-bio" data-profile-field="bio">
+            Profilo personale del progetto con foto, presentazione, informazioni
+            principali e contenuti in evidenza.
+          </p>
+        </div>
+
+        <div class="profile-hero-actions">
+          <a class="cta" href="index.html">Home</a>
+          <a class="cta secondary" href="modifica-profilo.html">Modifica profilo</a>
+          <button class="cta secondary" type="button" id="logout-button">Disconnetti</button>
+        </div>
+      </section>
+
+      <section class="profile-columns">
+        <aside class="profile-sidebar">
+          <article class="profile-card">
+            <p class="profile-kicker">Informazioni</p>
+            <p><strong>Nome:</strong> <span data-profile-field="displayName">WOKI</span></p>
+            <p><strong>Ruolo:</strong> <span data-profile-field="role">Creatore del progetto</span></p>
+            <p><strong>Citta':</strong> <span data-profile-field="city">Milano</span></p>
+            <p><strong>Email:</strong> <span data-profile-field="email">cilli@example.com</span></p>
+          </article>
+
+          <article class="profile-card">
+            <p class="profile-kicker">Dettagli</p>
+            <p><strong>Interessi:</strong> <span data-profile-field="interests">Foto, contenuti, profilo personale</span></p>
+            <p><strong>Obiettivo:</strong> <span data-profile-field="goal">Presentare il progetto in modo chiaro e moderno</span></p>
+            <p><strong>Stato:</strong> <span data-profile-field="status">Profilo attivo</span></p>
+          </article>
+        </aside>
+
+        <div class="profile-main">
+          <article class="profile-card">
+            <p class="profile-kicker">Presentazione</p>
+            <h2 class="profile-section-title" data-profile-field="introTitle">Chi Sono</h2>
+            <p data-profile-field="introText">
+              Questa pagina funziona come un profilo social: contiene una parte visiva
+              forte, informazioni rapide e uno spazio per raccontare chi sei e cosa vuoi
+              condividere con chi visita il sito.
+            </p>
+          </article>
+
+          <article class="profile-card">
+            <p class="profile-kicker">Post in evidenza</p>
+            <div class="profile-posts">
+              <div class="post-box">
+                <img src="profili-split/post 1.jpg" alt="Post in evidenza 1">
+                <p>Nuovo contenuto pubblicato sul profilo.</p>
+              </div>
+              <div class="post-box">
+                <img src="profili-split/profilo 8.jpg" alt="Post in evidenza 2">
+              </div>
+            </div>
+          </article>
+
+          <article class="profile-card">
+            <p class="profile-kicker">Galleria rapida</p>
+            <div class="mini-gallery">
+              <img src="foto3.jpg" alt="Foto galleria 1">
+              <img src="profili-split/profilo 8.jpg" alt="Foto galleria 2">
+            </div>
+          </article>
+        </div>
+      </section>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Woki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero" id="home">
+    <nav class="navbar">
+      <a class="brand" href="#home">Woki</a>
+
+      <button class="menu-toggle" aria-expanded="false" aria-controls="nav-menu">
+        Menu
+      </button>
+
+      <div class="nav-links" id="nav-menu">
+        <a href="#home">Home</a>
+        <a href="#about">Chi siamo</a>
+        <a href="#gallery">Galleria</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false">
+            Categorie
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="babysitting.html">Babysitting</a>
+            <a href="petsitting.html">Petsitting</a>
+            <a href="traslochi.html">Traslochi</a>
+          </div>
+        </div>
+        <a href="chat.html">Chat</a>
+        <a class="nav-button" href="accesso.html" id="account-link">Accedi</a>
+      </div>
+    </nav>
+
+    <div class="hero-content hero-feature">
+      <div class="hero-copy">
+        <p class="eyebrow">Sito moderno</p>
+        <h1>WOKI</h1>
+        <p class="hero-text">
+          Una base semplice e moderna con menu in alto, sezioni ordinate e una galleria
+          scorrevole per mostrare le tue foto.
+        </p>
+        <div class="hero-actions">
+          <a class="cta" href="#gallery">Guarda le foto</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section home-about" id="about">
+      <p class="section-label">Chi siamo</p>
+      <h2>Una piattaforma semplice per trovare supporto rapido.</h2>
+      <p>
+        Woki e' una piattaforma semplice e intuitiva pensata per mettere in contatto
+        persone che cercano aiuto nelle attivita' quotidiane con profili disponibili in
+        diverse categorie di servizio.
+      </p>
+      <p>
+        All'interno del sito e' possibile esplorare sezioni dedicate come babysitting,
+        petsitting e traslochi, visualizzare i profili disponibili e avviare rapidamente
+        una conversazione diretta tramite chat.
+      </p>
+    </section>
+
+    <section class="section alt" id="gallery">
+      <p class="section-label">Galleria</p>
+      <h2><strong>Galleria Foto</strong></h2>
+
+      <div class="slider" aria-label="Slider fotografie">
+        <div class="slider-header">
+          <span class="slider-note">Scorri Immagini Degli Utenti</span>
+          <div class="slider-controls">
+            <button class="slider-button" type="button" data-direction="prev" aria-label="Foto precedente">
+              &larr;
+            </button>
+            <button class="slider-button" type="button" data-direction="next" aria-label="Foto successiva">
+              &rarr;
+            </button>
+          </div>
+        </div>
+
+        <div class="slider-track" id="photo-slider">
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 1.png" alt="Foto 1 della galleria">
+          </article>
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 2.png" alt="Foto 2 della galleria">
+          </article>
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 3.jpg" alt="Foto 3 della galleria">
+          </article>
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 4.jpg" alt="Foto 4 della galleria">
+          </article>
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 5.jpg" alt="Foto 5 della galleria">
+          </article>
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 6.jpg" alt="Foto 6 della galleria">
+          </article>
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 7.jpg" alt="Foto 7 della galleria">
+          </article>
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 8.jpg" alt="Foto 8 della galleria">
+          </article>
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 1.png" alt="Foto 9 della galleria">
+          </article>
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 2.png" alt="Foto 10 della galleria">
+          </article>
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 3.jpg" alt="Foto 11 della galleria">
+          </article>
+          <article class="slide">
+            <img class="photo-box" src="profili-split/profilo 4.jpg" alt="Foto 12 della galleria">
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <div class="site-footer-column">
+          <h3 class="site-footer-heading">Woki</h3>
+          <p class="site-footer-text">Seguici anche sui canali social dei principali creatori del web.</p>
+
+          <div class="site-footer-socials" aria-label="Link social">
+            <a href="https://www.facebook.com/zuck" target="_blank" rel="noopener noreferrer">FB</a>
+            <a href="https://www.instagram.com/kevin/" target="_blank" rel="noopener noreferrer">IG</a>
+            <a href="https://www.youtube.com/@chad" target="_blank" rel="noopener noreferrer">YT</a>
+          </div>
+        </div>
+
+        <div class="site-footer-column site-footer-address">
+          <h3 class="site-footer-heading">Indirizzo</h3>
+          <a href="https://www.google.com/maps?q=45.947887,9.599165" target="_blank" rel="noopener noreferrer">
+            Cassiglio 24010 BG 45.947887, 9.599165
+          </a>
+        </div>
+
+        <div class="site-footer-column site-footer-contact">
+          <h3 class="site-footer-heading">Contatto</h3>
+          <div class="site-footer-contact-item">
+            <p>Email generale</p>
+            <a href="#" data-broken-email="true">prova@gmail.com</a>
+          </div>
+          <div class="site-footer-contact-item">
+            <p>Numero di telefono</p>
+            <span>+0 00.0000.0000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="site-footer-legal-card">
+        <div class="site-footer-legal-copy">
+          <p class="section-label">Privacy</p>
+          <h3 class="site-footer-heading">Scheda privacy e norme principali</h3>
+          <p class="site-footer-text">
+            Consulta la pagina dedicata con informativa generale, diritti degli utenti,
+            principi del GDPR e limitazioni di responsabilita' formulate nei limiti consentiti dalla legge.
+          </p>
+        </div>
+        <a class="site-footer-legal-link" href="privacy.html">Apri scheda privacy</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

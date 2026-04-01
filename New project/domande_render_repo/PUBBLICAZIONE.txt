@@ -1,0 +1,12 @@
+Pubblicazione su GitHub e Render
+
+1. Crea un nuovo repository su GitHub.
+2. Carica in quel repository i file di questa cartella.
+3. Vai su Render e crea un nuovo Web Service collegato al repository.
+4. Render usera' `render.yaml` e ti dara' un link fisso tipo:
+   https://nome-servizio.onrender.com
+
+Consiglio
+
+- Se vuoi partire con statistiche vuote, svuota `responses.json` prima del caricamento.
+- Se vuoi conservare le risposte in modo affidabile, su Render ti servira' un disco persistente o un database.

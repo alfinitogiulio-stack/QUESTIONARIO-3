@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Domande | Woki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .questions-page {
+      padding: 24px 24px 72px;
+    }
+
+    .questions-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .questions-hero {
+      padding-top: 0;
+    }
+
+    .questions-breadcrumb {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .questions-hero-card {
+      display: block;
+      padding: 38px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(238, 243, 251, 0.92));
+      box-shadow: var(--shadow);
+    }
+
+    .question-flow-panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .questions-lead {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .question-progress {
+      display: flex;
+      gap: 10px;
+      margin: 8px 0 24px;
+    }
+
+    .question-progress-step {
+      flex: 1;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 36, 0.12);
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    .question-progress-step.is-active {
+      background: var(--accent);
+      transform: scaleY(1.08);
+    }
+
+    .question-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 430px;
+      padding: 28px;
+      border: 1px solid rgba(31, 94, 255, 0.14);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .question-counter {
+      margin-bottom: 12px;
+      color: var(--accent-dark);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .question-title {
+      min-height: 5.9rem;
+      margin-bottom: 12px;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      line-height: 1.08;
+    }
+
+    .question-description {
+      min-height: 1.8rem;
+      margin-bottom: 22px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .question-options {
+      display: grid;
+      gap: 14px;
+      margin-top: auto;
+    }
+
+    .question-feedback {
+      min-height: 26px;
+      margin-top: 16px;
+      color: var(--accent-dark);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .question-option {
+      min-height: 72px;
+      width: 100%;
+      padding: 18px 20px;
+      border: 1px solid rgba(15, 23, 36, 0.1);
+      border-radius: 22px;
+      background: rgba(238, 243, 251, 0.8);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font: inherit;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+
+    .question-option:hover {
+      transform: translateY(-2px);
+      border-color: rgba(31, 94, 255, 0.28);
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    .question-option.is-selected {
+      border-color: rgba(31, 94, 255, 0.58);
+      background: rgba(31, 94, 255, 0.1);
+      box-shadow: 0 18px 32px rgba(31, 94, 255, 0.12);
+    }
+
+    .question-option-label {
+      display: block;
+      font-size: 1.02rem;
+      font-weight: 700;
+    }
+
+    .question-option-text {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .question-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .question-next,
+    .question-restart {
+      margin-top: 0;
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .question-next:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+      background: #90a4d4;
+    }
+
+    @media (max-width: 860px) {
+      .questions-page {
+        padding: 16px 16px 56px;
+      }
+
+      .questions-hero-card {
+        padding: 24px;
+      }
+
+      .question-card {
+        padding: 22px;
+      }
+
+      .question-card {
+        min-height: 400px;
+      }
+
+      .question-title {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body class="questions-page-body">
+  <main class="questions-page">
+    <section class="questions-hero">
+      <div class="questions-shell">
+        <div class="questions-hero-card" data-question-flow>
+          <div class="question-flow-panel">
+            <p class="section-label">Questionario</p>
+            <h1>Rispondi a 3 domande.</h1>
+            <p class="questions-lead">
+              Scegli una risposta per ogni domanda e usa il pulsante Avanti per continuare.
+            </p>
+
+            <div class="question-progress" aria-hidden="true">
+              <span class="question-progress-step is-active"></span>
+              <span class="question-progress-step"></span>
+              <span class="question-progress-step"></span>
+            </div>
+
+            <div class="question-card">
+              <p class="question-counter" data-question-counter>Domanda 1 di 3</p>
+              <h2 class="question-title" data-question-title>Ti piacerebbe dedicare del tempo per guadagnare qualcosa?</h2>
+              <p class="question-description" data-question-description>
+                Rispondi con SI' o NO.
+              </p>
+
+              <div class="question-options" data-question-options aria-label="Opzioni risposta"></div>
+              <p class="question-feedback" data-question-feedback></p>
+
+              <div class="question-actions">
+                <button class="cta secondary question-restart" type="button" data-question-restart hidden>Ricomincia</button>
+                <button class="cta question-next" type="button" data-question-next disabled>Avanti</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const questionFlow = document.querySelector("[data-question-flow]");
+
+      if (!questionFlow) {
+        return;
+      }
+
+      const questions = [
+        {
+          id: "motivation",
+          counter: "Domanda 1 di 3",
+          title: "Ti piacerebbe dedicare del tempo per guadagnare qualcosa?",
+          description: "Rispondi con SI' o NO.",
+          options: [
+            {
+              label: "Si'",
+              text: "",
+            },
+            {
+              label: "No",
+              text: "",
+            }
+          ]
+        },
+        {
+          id: "availability",
+          counter: "Domanda 2 di 3",
+          title: "Quanto tempo riusciresti a dedicare?",
+          description: "Rispondi con SI' o NO.",
+          options: [
+            {
+              label: "Si'",
+              text: "",
+            },
+            {
+              label: "No",
+              text: "",
+            }
+          ]
+        },
+        {
+          id: "next_step",
+          counter: "Domanda 3 di 3",
+          title: "Come preferisci andare avanti?",
+          description: "Rispondi con SI' o NO.",
+          options: [
+            {
+              label: "Si'",
+              text: "",
+            },
+            {
+              label: "No",
+              text: "",
+            }
+          ]
+        }
+      ];
+
+      const progressSteps = questionFlow.querySelectorAll(".question-progress-step");
+      const counter = questionFlow.querySelector("[data-question-counter]");
+      const title = questionFlow.querySelector("[data-question-title]");
+      const description = questionFlow.querySelector("[data-question-description]");
+      const optionsContainer = questionFlow.querySelector("[data-question-options]");
+      const feedback = questionFlow.querySelector("[data-question-feedback]");
+      const nextButton = questionFlow.querySelector("[data-question-next]");
+      const restartButton = questionFlow.querySelector("[data-question-restart]");
+      const responsesEndpoint = "/api/responses";
+
+      let currentQuestionIndex = 0;
+      let answers = {};
+      let hasStoredCurrentRun = false;
+
+      const escapeHtml = (value) =>
+        String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+
+      const updateProgress = () => {
+        progressSteps.forEach((step, index) => {
+          step.classList.toggle("is-active", index <= currentQuestionIndex);
+        });
+      };
+
+      const bindOptions = (question) => {
+        optionsContainer.querySelectorAll("[data-question-option]").forEach((button) => {
+          button.addEventListener("click", () => {
+            answers[question.id] = button.getAttribute("data-question-option") || "";
+            renderQuestion();
+          });
+        });
+      };
+
+      const storeAnswers = async () => {
+        if (hasStoredCurrentRun) {
+          return true;
+        }
+
+        try {
+          const response = await fetch(responsesEndpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              submittedAt: new Date().toISOString(),
+              answers,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Save failed");
+          }
+
+          hasStoredCurrentRun = true;
+          return true;
+        } catch (error) {
+          return false;
+        }
+      };
+
+      const renderQuestion = () => {
+        const question = questions[currentQuestionIndex];
+        const selectedAnswer = answers[question.id];
+
+        counter.textContent = question.counter;
+        title.textContent = question.title;
+        description.textContent = question.description;
+
+        optionsContainer.innerHTML = question.options
+          .map((option) => {
+            const isSelected = selectedAnswer === option.label;
+
+            return `
+              <button
+                class="question-option${isSelected ? " is-selected" : ""}"
+                type="button"
+                data-question-option="${escapeHtml(option.label)}"
+              >
+                <span class="question-option-label">${escapeHtml(option.label)}</span>
+                ${option.text ? `<span class="question-option-text">${escapeHtml(option.text)}</span>` : ""}
+              </button>
+            `;
+          })
+          .join("");
+
+        nextButton.disabled = !selectedAnswer;
+        nextButton.hidden = false;
+        nextButton.textContent = currentQuestionIndex === questions.length - 1 ? "Fine" : "Avanti";
+        restartButton.hidden = true;
+        feedback.textContent = selectedAnswer ? "GRAZIE MILLE RISPOSTO" : "";
+        updateProgress();
+        bindOptions(question);
+      };
+
+      const renderCompleteState = (savedSuccessfully) => {
+        counter.textContent = "Questionario completato";
+        title.textContent = "Grazie mille per aver risposto";
+        description.textContent = savedSuccessfully
+          ? "Le risposte sono state salvate correttamente."
+          : "Non sono riuscito a salvare le risposte. Riprova tra poco.";
+        feedback.textContent = savedSuccessfully ? "GRAZIE MILLE RISPOSTO" : "ERRORE NEL SALVATAGGIO";
+        optionsContainer.innerHTML = "";
+
+        nextButton.hidden = true;
+        restartButton.hidden = false;
+        progressSteps.forEach((step) => {
+          step.classList.add("is-active");
+        });
+      };
+
+      nextButton.addEventListener("click", async () => {
+        const currentQuestion = questions[currentQuestionIndex];
+
+        if (!answers[currentQuestion.id]) {
+          return;
+        }
+
+        if (currentQuestionIndex === questions.length - 1) {
+          nextButton.disabled = true;
+          const savedSuccessfully = await storeAnswers();
+          renderCompleteState(savedSuccessfully);
+          return;
+        }
+
+        currentQuestionIndex += 1;
+        renderQuestion();
+      });
+
+      restartButton.addEventListener("click", () => {
+        currentQuestionIndex = 0;
+        answers = {};
+        hasStoredCurrentRun = false;
+        renderQuestion();
+      });
+
+      renderQuestion();
+    })();
+  </script>
+</body>
+</html>

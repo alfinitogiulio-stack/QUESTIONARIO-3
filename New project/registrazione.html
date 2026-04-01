@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrazione | Woki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="login-page">
+    <section class="login-card">
+      <p class="section-label">Registrazione</p>
+      <h1 class="login-title">Crea il tuo account.</h1>
+      <p class="login-text">
+        Compila i dati richiesti e completa la verifica finale con la fotocamera.
+      </p>
+
+      <form class="access-form" id="register-form">
+        <label for="full-name">Nome e cognome</label>
+        <input id="full-name" name="full-name" type="text" placeholder="Inserisci nome e cognome" autocomplete="name">
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="Inserisci la tua email" autocomplete="email">
+
+        <label for="phone">Telefono</label>
+        <input id="phone" name="phone" type="tel" placeholder="Inserisci il numero di telefono" autocomplete="tel">
+
+        <label for="card-name">Nome sulla carta</label>
+        <input id="card-name" name="card-name" type="text" placeholder="Inserisci il nome sulla carta" autocomplete="cc-name">
+
+        <label for="card-number">Numero carta</label>
+        <input id="card-number" name="card-number" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" autocomplete="cc-number">
+
+        <label for="card-expiry">Scadenza</label>
+        <input id="card-expiry" name="card-expiry" type="text" inputmode="numeric" placeholder="MM/AA" autocomplete="cc-exp">
+
+        <label for="card-cvc">CVV</label>
+        <input id="card-cvc" name="card-cvc" type="text" inputmode="numeric" placeholder="123" autocomplete="cc-csc">
+
+        <label for="profile-photo">Carica un documento</label>
+        <input id="profile-photo" name="profile-photo" type="file" accept="image/*">
+
+        <label class="consent-check" for="privacy-consent">
+          <input id="privacy-consent" name="privacy-consent" type="checkbox" required>
+          <span>
+            Dichiaro di aver letto e di accettare le
+            <a href="privacy.html" target="_blank" rel="noopener noreferrer">condizioni di privacy</a>.
+          </span>
+        </label>
+
+        <button class="cta secondary" type="submit">Vai alla fotocamera</button>
+      </form>
+
+      <section class="camera-step hidden" id="camera-step">
+        <p class="verify-note">Verifica finale</p>
+        <p class="login-text">
+          Consenti l'accesso alla fotocamera per completare la registrazione.
+        </p>
+
+        <video id="camera-preview" class="camera-preview" autoplay playsinline muted></video>
+
+        <div class="camera-actions">
+          <button class="cta" type="button" id="start-camera">Apri fotocamera</button>
+          <button class="cta secondary" type="button" id="complete-verification">Completa registrazione</button>
+        </div>
+      </section>
+
+      <p class="login-text">
+        Hai gia' un account?
+        <a class="back-link" href="accesso.html">Vai all'accesso</a>
+      </p>
+
+      <a class="back-link" href="index.html">Torna alla home</a>
+    </section>
+  </main>
+
+  <script>
+    const registerForm = document.querySelector("#register-form");
+    const cameraStep = document.querySelector("#camera-step");
+    const startCameraButton = document.querySelector("#start-camera");
+    const completeVerificationButton = document.querySelector("#complete-verification");
+    const cameraPreview = document.querySelector("#camera-preview");
+    let cameraStream;
+
+    if (registerForm && cameraStep && startCameraButton && completeVerificationButton && cameraPreview) {
+      registerForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        registerForm.classList.add("hidden");
+        cameraStep.classList.remove("hidden");
+      });
+
+      startCameraButton.addEventListener("click", async () => {
+        try {
+          cameraStream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false,
+          });
+          cameraPreview.srcObject = cameraStream;
+        } catch (error) {
+          alert("Non e' stato possibile aprire la fotocamera.");
+        }
+      });
+
+      completeVerificationButton.addEventListener("click", () => {
+        if (cameraStream) {
+          cameraStream.getTracks().forEach((track) => track.stop());
+        }
+
+        sessionStorage.setItem("isLoggedIn", "true");
+        window.location.href = "profilo.html";
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+QR stabile con link definitivo
+
+1. Quando avrai il link fisso di Render, apri `link_stabile.js`
+2. Sostituisci:
+   - `https://INSERISCI-QUI-IL-LINK-ONRENDER.onrender.com/domande.html`
+   - `https://INSERISCI-QUI-IL-LINK-ONRENDER.onrender.com/statistiche.html`
+3. Apri `qr_stabile.html`
+4. Troverai i due QR pronti:
+   - uno per `domande`
+   - uno per `statistiche`
+
+Importante
+
+- Questo sistema serve per il QR stabile vero
+- Non usare un link `trycloudflare.com` se vuoi stampare o condividere il QR a lungo
